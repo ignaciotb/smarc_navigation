@@ -26,6 +26,12 @@
         <param name="depth_topic" value="/uavcan_depth2" />
     </node>
 
+    <node pkg="sam_dead_reckoning" name="sam_dr" type="sam_dr.py" output="screen">
+        <param name="thrust_dr" value="$/sam_thrust_dr" />
+        <param name="thrust_fb" value="/uavcan_to_ros_bridge/esc_status" />
+        <!-- <param name="depth_topic" value="/uavcan_depth2" /> -->
+    </node>
+
     <!-- EKF for fusing continuous position data from wheel odometry and IMU -->
     <node pkg="robot_localization" type="ekf_localization_node" name="ekf_loc_local" output="screen" clear_params="true">
         <param name="frequency" value="30"/>
@@ -78,6 +84,17 @@
         <param name="imu0_relative" value="true"/>
         <param name="imu0_remove_gravitational_acceleration" value="true"/>
         <param name="gravitational_acceleration" value="9.852"/>
+
+        <!-- DR from thrusters -->
+        <param name="odom0" value="/sam_thrust_dr"/>
+        <rosparam param="odom0_config">[false,  false,  false,
+		                                false, false, false,
+		                                true,  false, false,
+		                                false, false, false,
+		                                false, false, false]</rosparam>
+
+        <param name="odom0_differential" value="false"/>
+        <param name="odom0_relative" value="false"/>
 
         <!-- Node params -->
         <param name="publish_tf" value="true"/>
