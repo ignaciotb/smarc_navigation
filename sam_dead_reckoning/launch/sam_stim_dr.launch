@@ -22,13 +22,13 @@
     <!-- Depth from pressure sensor converter -->
     <node pkg="sam_dead_reckoning" name="press_to_depth" type="press_to_depth.py" output="screen">
         <param name="odom_frame" value="$(arg namespace)_odom" />
-        <param name="pressure_topic" value="/uavcan_pressure2" />
+        <param name="pressure_topic" value="/uavcan_to_ros_bridge_node/sensor_pressure_stamped1" />
         <param name="depth_topic" value="/uavcan_depth2" />
     </node>
 
     <node pkg="sam_dead_reckoning" name="sam_dr" type="sam_dr.py" output="screen">
-        <param name="thrust_dr" value="$/sam_thrust_dr" />
-        <param name="thrust_fb" value="/uavcan_to_ros_bridge/esc_status" />
+        <param name="thrust_dr" value="/sam_thrust_dr" />
+        <param name="thrust_fb" value="/uavcan_to_ros_bridge_node/esc_status" />
         <!-- <param name="depth_topic" value="/uavcan_depth2" /> -->
     </node>
 
@@ -86,7 +86,7 @@
         <param name="gravitational_acceleration" value="9.852"/>
 
         <!-- DR from thrusters -->
-        <param name="odom0" value="/sam_thrust_dr"/>
+        <!--<param name="odom0" value="/sam_thrust_dr"/>
         <rosparam param="odom0_config">[false,  false,  false,
 		                                false, false, false,
 		                                true,  false, false,
@@ -94,7 +94,7 @@
 		                                false, false, false]</rosparam>
 
         <param name="odom0_differential" value="false"/>
-        <param name="odom0_relative" value="false"/>
+        <param name="odom0_relative" value="false"/>-->
 
         <!-- Node params -->
         <param name="publish_tf" value="true"/>
