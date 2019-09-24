@@ -27,6 +27,7 @@ class SamDR(object):
  		self.P = 0.001
  		self.first_it = True
 
+
 		rospy.spin()
 
 	def thrustCB(self, thrust_msg):
@@ -52,7 +53,7 @@ class SamDR(object):
 		msg_odom.pose.pose.position.x = self.x
 		msg_odom.pose.pose.position.y = self.y
 		msg_odom.pose.covariance = [1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01]
-		msg_odom.twist.twist.linear.x = self.P * thrust_msg.rpm
+		msg_odom.twist.twist.linear.x = self.P
  		msg_odom.twist.covariance = [1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01]
 
 		self.odom_pub.publish(msg_odom)	
