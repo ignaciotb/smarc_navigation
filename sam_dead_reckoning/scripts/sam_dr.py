@@ -16,22 +16,30 @@ class SamDR(object):
 		self.dr_thrust_topic = rospy.get_param(rospy.get_name() + '/thrust_dr', '/pressure')
 		self.thrust_vec_fb_topic = rospy.get_param(rospy.get_name() + '/thrust_fb', '/thrust_fb')
 
-		self.subs_thrust = rospy.Subscriber(self.thrust_vec_fb_topic, ESCStatus, self.thrustAngCB)
+		self.subs_thrust = rospy.Subscriber(self.thrust_vec_fb_topic, ESCStatus, self.thrustCB)
 		# self.subs_esc= rospy.Subscriber(self.esc_fb_topic, ESCStatus, self.escStatCB)
 		
  		self.odom_pub = rospy.Publisher(self.dr_thrust_topic, Odometry)
 
- 		self.time_now = 0
- 		self.prev_time = 0
- 		self.x = 0
- 		self.y = 0
+ 		self.prev_time = rospy.Time.now()
+ 		self.x = 0.0
+ 		self.y = 0.0
  		self.P = 0.001
+ 		self.first_it = True
 
 		rospy.spin()
 
-	def thrustAngCB(self, thrust_msg):
+	def thrustCB(self, thrust_msg):
 
-		self.time_now = rospy.Time.now() 
+		print "Thruster CB!"
+		# 0,000688
+
+		self.time_now = rospy.Time.now()
+
+		if self.first_it:
+			self.first_it = False
+			self.prev_time = self.time_now
+			return 
 
 		dt = (self.time_now - self.prev_time).to_sec()
 
@@ -40,7 +48,7 @@ class SamDR(object):
 		msg_odom.header.frame_id = "sam_odom"
 		msg_odom.child_frame_id = "sam/base_link"
 
-		self.x =+ (self.P * thrust_msg.rpm)*dt
+		self.x = self.x + (self.P * thrust_msg.rpm)*dt
 		msg_odom.pose.pose.position.x = self.x
 		msg_odom.pose.pose.position.y = self.y
 		msg_odom.pose.covariance = [1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.3, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.01]

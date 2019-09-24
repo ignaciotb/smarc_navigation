@@ -28,7 +28,7 @@
 
     <node pkg="sam_dead_reckoning" name="sam_dr" type="sam_dr.py" output="screen">
         <param name="thrust_dr" value="$/sam_thrust_dr" />
-        <param name="thrust_fb" value="/uavcan_to_ros_bridge/esc_status" />
+        <param name="thrust_fb" value="/uavcan_to_ros_bridge_node/esc_status" />
         <!-- <param name="depth_topic" value="/uavcan_depth2" /> -->
     </node>
 
