@@ -22,13 +22,14 @@
     
     <!-- If EKF set to not bc this transform, do it here -->
     <node name="map_2_odom" pkg="tf" type="static_transform_publisher" args="0 0 0 0 0 0 map $(arg robot_name)/odom 100" unless="$(arg map_odom_tf_ekf)"/>
-<!--   <node pkg="sam_dead_reckoning" name="motion_model" type="motion_model.py" output="screen">
+
+  <node pkg="sam_dead_reckoning" name="motion_model" type="motion_model.py" output="screen">
     <param name="thrust_dr" value="/$(arg robot_name)/dr/motion_dr" />
     <param name="thrust_fb" value="/$(arg robot_name)/core/rpm_fb" />
     <param name="sbg_imu" value="/$(arg robot_name)/core/sbg_imu" />
     <param name="odom_frame" value="$(arg robot_name)/odom" />
     <param name="base_frame" value="$(arg robot_name)/base_link" />
-  </node> -->
+  </node>
 
   <!-- Depth from pressure sensor converter -->
   <node pkg="sam_dead_reckoning" name="press_to_depth" type="press_to_depth.py" output="screen">
@@ -110,13 +111,13 @@
 
 
         <!-- DR from motion model -->
-<!--         <param name="odom0" value="motion_dr"/>
-        <rosparam param="odom0_config">[true, true, true,
+        <param name="odom0" value="motion_dr"/>
+        <rosparam param="odom0_config">[true, true, false,
                                            false, false, false,
                                            false, false, false,
                                            false, false, false,
                                            false, false, false]</rosparam>
-        <param name="odom0_differential" value="false"/> -->
+        <param name="odom0_differential" value="false"/>
 
         <!-- DVL -->
         <param name="odom0" value="dvl_dr"/>
@@ -226,13 +227,13 @@
 
 
     <!-- DR from motion model -->
-<!--         <param name="odom1" value="motion_dr"/>
-    <rosparam param="odom1_config">[true, true, true,
+        <param name="odom1" value="motion_dr"/>
+    <rosparam param="odom1_config">[true, true, false,
                                        false, false, false,
                                        false, false, false,
                                        false, false, false,
                                        false, false, false]</rosparam>
-    <param name="odom1_differential" value="false"/> -->
+    <param name="odom1_differential" value="false"/>
 
         <!-- Depth sensor -->
         <param name="pose0" value="pressure_depth"/>

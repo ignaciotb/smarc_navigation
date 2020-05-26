@@ -56,24 +56,11 @@ class DVL2DR(object):
             # Velocity at time t
             t_now = rospy.Time.now()
             self.dt = (t_now - self.t_prev)
-
-            # TODO: compute yaw from odom, not straight from compass
-            # Current angles 
-            if self.first_msg == True:
-                (self.roll_init, self.pitch_init, self.yaw_init) = tf.transformations.euler_from_quaternion([imu_msg.orientation.x,
-                                                                                                            imu_msg.orientation.y, 
-                                                                                                            imu_msg.orientation.z,
-                                                                                                            imu_msg.orientation.w])
-                self.first_msg = False
-                roll = self.roll_init
-                pitch = self.pitch_init
-                yaw = self.yaw_init 
             
-            else:
-                (roll, pitch, yaw) = tf.transformations.euler_from_quaternion([imu_msg.orientation.x,
-                                                                              imu_msg.orientation.y, 
-                                                                              imu_msg.orientation.z,
-                                                                              imu_msg.orientation.w])
+            (roll, pitch, yaw) = tf.transformations.euler_from_quaternion([imu_msg.orientation.x,
+                                                                          imu_msg.orientation.y, 
+                                                                          imu_msg.orientation.z,
+                                                                          imu_msg.orientation.w])
             roll_t = ((roll) + 2 * np.pi) % (2 * np.pi)
             pitch_t = ((pitch) + 2 * np.pi) % (2 * np.pi)
             yaw_t = ((yaw) + 2 * np.pi) % (2 * np.pi)

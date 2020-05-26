@@ -60,7 +60,7 @@ class SamMM(object):
                                                                       imu_msg.orientation.y, 
                                                                       imu_msg.orientation.z,
                                                                       imu_msg.orientation.w])
-        self.fullRotation(roll, pitch, yaw+1.57)
+        self.fullRotation(roll, pitch, yaw)
         vel_t = np.matmul(self.rot_t, np.array([thrust, 0., 0.]))
 
         # Integrate velocities
