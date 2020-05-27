@@ -52,14 +52,14 @@ class UWGps():
         gps_master_pub = rospy.Publisher('/sam/dr/uw_gps_master', NavSatFix, queue_size=10)
         pose_pub = rospy.Publisher('/sam/dr/uw_gps_pose', PoseStamped, queue_size=10)
         
-        parser = argparse.ArgumentParser(description=__doc__)
-        parser.add_argument('-u', '--url', help='Base URL to use', type=str, default='http://demo.waterlinked.com')
-        parser.add_argument('-o', '--output', help='Output filename', type=str, default='tracklog.gpx')
-
-        args = parser.parse_args()
-
-        base_url = args.url
-        filename = args.output
+        #  parser = argparse.ArgumentParser(description=__doc__)
+        #  parser.add_argument('-u', '--url', help='Base URL to use', type=str, default='http://demo.waterlinked.com')
+        #  parser.add_argument('-o', '--output', help='Output filename', type=str, default='tracklog.gpx')
+#
+        #  args = parser.parse_args()
+#
+        base_url = 'http://demo.waterlinked.com'
+        filename = 'testlog.gpx'
         log.info("Creating tracklog from: {} into file {}. Press Ctrl-C to stop logging".format(base_url, filename))
 
         gpx = gpxpy.gpx.GPX()
@@ -112,7 +112,7 @@ class UWGps():
                 gpx_segment_master.points.append(gpxpy.gpx.GPXTrackPoint(lat_master, lon_master, time=datetime.datetime.utcnow()))
 
                 gps_msg = NavSatFix()
-                gps_msg.header.frame_id = 'world'
+                gps_msg.header.frame_id = 'sam/base_link'
                 gps_msg.header.stamp = rospy.Time.now()
                 gps_msg.latitude = lat_global
                 gps_msg.longitude = lon_global
@@ -126,15 +126,15 @@ class UWGps():
                 gps_msg.altitude = 0.0 
                 gps_master_pub.publish(gps_msg)
 
-                pose_msg = PoseStamped()
-                pose_msg.header.frame_id = 'map'
-                pose_msg.header.stamp = rospy.Time.now()
-                pose_msg.pose.position.x = lat_global
-                pose_msg.pose.position.y = lon_global
-                pose_msg.pose.position.z = -depth 
-
-                pose_pub.publish(pose_msg)
-
+                #  pose_msg = PoseStamped()
+                #  pose_msg.header.frame_id = 'map'
+                #  pose_msg.header.stamp = rospy.Time.now()
+                #  pose_msg.pose.position.x = lat_global
+                #  pose_msg.pose.position.y = lon_global
+                #  pose_msg.pose.position.z = -depth
+#
+                #  pose_pub.publish(pose_msg)
+#
                 #  (utm_x, utm_y, utm_zone, utm_letter) = utm.from_latlon(lat_global, lon_global)
                 #  odom_msg = Odometry()
                 #  odom_msg.header.frame_id = 'world'
