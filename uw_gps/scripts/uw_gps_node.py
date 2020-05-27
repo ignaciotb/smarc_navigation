@@ -116,7 +116,7 @@ class UWGps():
                 gps_msg.header.stamp = rospy.Time.now()
                 gps_msg.latitude = lat_global
                 gps_msg.longitude = lon_global
-                gps_msg.altitude = altitude 
+                gps_msg.altitude = -altitude 
                 gps_global_pub.publish(gps_msg)
 
                 gps_msg.header.frame_id = 'uw_master'
