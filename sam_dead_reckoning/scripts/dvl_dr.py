@@ -34,7 +34,10 @@ class DVL2DR(object):
             self.roll_init = 0.
             self.pitch_init = 0.
             self.yaw_init = 0. 
-     
+
+            # For testing 
+            self.br = tf.TransformBroadcaster()
+            
             rospy.spin()
 
 
@@ -96,12 +99,11 @@ class DVL2DR(object):
             self.t_prev = t_now 
             self.position_prev = position_t 
 
-            #  br = tf.TransformBroadcaster()
-            #  br.sendTransform(position_t,
-                     #  quat_t,
-                     #  rospy.Time.now(),
-                     #  "sam_test",
-                     #  self.odom_frame)
+            self.br.sendTransform(position_t,
+                     quat_t,
+                     rospy.Time.now(),
+                     "sam/base_link",
+                     self.odom_frame)
 
 
 
